@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spicyhunt-frontend-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - spicyhunt.ops1.websiteserverhost.biz
+      secretName: spicyhunt-frontend-tls
+  rules:
+    - host: spicyhunt.ops1.websiteserverhost.biz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spicyhunt-frontend-service
+                port:
+                  number: 80

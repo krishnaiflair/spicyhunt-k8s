@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spicyhunt-frontend
+  labels:
+    app: spicyhunt-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spicyhunt-frontend
+  template:
+    metadata:
+      labels:
+        app: spicyhunt-frontend
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+        - name: spicyhunt-frontend
+          image: gitlab.websiteserverhost.net:5050/headless_demo/spicyhunt/frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4001
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "768Mi"
